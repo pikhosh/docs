@@ -7,7 +7,7 @@ In Isar, a transaction combines multiple database operations in a single unit of
 
 ## Explicit transactions
 
-With an explicit transaction you get a consistent view of the database. You should try to minimize the time a transaction is active and it is forbidden to do network calls or other long running operations in a transaction.
+With an explicit transaction you get a consistent view of the database. You should try to minimize the time a transaction is active. It is forbidden to do network calls or other long running operations in a transaction.
 
 Transactions (especially write transactions) do have a cost and you should always try to group successive operations in a single transaction.
 
