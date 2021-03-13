@@ -23,12 +23,15 @@ For non-Flutter projects, you need to manually include the Isar Core binaries.
 
 ## 2. Annotate classes
 
-Annotate your classes with `@Collection` and mixin or extend `IsarObject`.
+Annotate your classes with `@Collection` and choose an id field.
 
 ```dart
 @Collection()
-class Contact with IsarObject {
-    String name;
+class Contact {
+  @Id()
+  int? id;
+  
+  String name;
 }
 ```
 

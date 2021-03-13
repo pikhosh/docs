@@ -1,6 +1,6 @@
 module.exports = {
   someSidebar: {
     "Getting Started": ['quickstart'],
-    "Learn to use Isar": ['schema', 'crud', 'queries', 'transactions', 'indexes'],
+    "Concepts": ['schema', 'crud', 'queries', 'transactions', 'indexes', 'links', 'watchers', 'type-converters', 'limitations'],
   },
 };

@@ -7,29 +7,60 @@ When using Isar, you're dealing with Collections. A collection can only contain 
 
 ## Annotating classes
 
-The Isar generator will find all classes annotated with `@Collection()`. All model classes need to mixin or extend `IsarObject`.
+The Isar generator will find all classes annotated with `@Collection()`. All model classes need to define an id by annotating a property with `@Id()`. Only `int` properties may be used as id.
 
 ```dart
 @Collection()
-class Contact with IsarObject {
-    String firstName;
+class Contact {
+  @Id()
+  int? id;
 
-    String lastName;
+  String firstName;
 
-    bool isStarred;
+  String lastName;
+
+  bool isStarred;
 }
 ```
 
+### Id
+
+Each class needs and `int` field annotated with `@Id()` that uniquely identifies an object. If a class has a field called `id`, you can omit the `@Id()` annotation.
+
+```dart
+@Collection()
+class Pet {
+  int? id; // field is called id so an @Id() annotation is not required
+
+  String name;
+}
+```
+
+Isar automatically indexes id fields, which allows you to efficiently read and modify objects based on their id.
+
+You can either set ids yourself or by setting them to `null` request Isar to assign an auto-increment id.
 
 ### Supported types
 
-Isar supports fields of type `bool`, `int`, `double`, `String`, `Uint8List`, `List<bool>`, `List<int>`, `List<double>`, `List<String>`.
+Isar supports supports the following data types:
+- `bool`
+- `int`
+- `double`
+- `DateTime`
+- `String`
+- `Uint8List`
+- `List<bool>`
+- `List<int>`
+- `List<double>`
+- `List<DateTime>`
+- `List<String>`
 
 It is important to understand how nullability works in Isar:
-Number types do **NOT** have a dedicated `null`-representation. Instead a specific value will be used. `int` uses the `int.MIN` value and `double` uses `double.NaN`. `bool`, `String` and `List` have a separate `null`.
+Number types do **NOT** have a dedicated `null`-representation. Instead a specific value will be used. `int` uses the `int.MIN` value and `double` uses `double.NaN`. `bool`, `String` and `List` have a separate `null` representation.
 
 While this may sound strange at first, it allows you to change the nullability of your fields freely without requiring migration or special code to handle `null`s.
 
+➡️ Use `TypeConverter`s to store unsupported types like enums: [Type Converters](type-converters)
 
 ### 8-byte and 4-byte numbers
 
@@ -41,42 +72,43 @@ By default, all public fields of a class will be persisted. By annotating a fiel
 
 ### Renaming classes and fields
 
-You have to be careful when you want to rename a class or field. Most of the time it will just drop the class or field. With the `@Name()` annotation, you can name classes and fields in the database independantly from Dart. The following code will yield the exact same schema as the code above.
+You have to be careful when you want to rename a class or field. Most of the time the old class or field will just be droped and recreated. With the `@Name()` annotation, you can name classes and fields in the database independantly from Dart. The following code will yield the exact same schema as the code above.
 
 ```dart
 @Collection()
 @Name("Contact")
-class MyContactClass1 with IsarObject {
+class MyContactClass1 {
+  @Id()
+  @Name("id")
+  int? myObjectId;
 
-    @Name("firstName")
-    String theFirstName;
+  @Name("firstName")
+  String theFirstName;
 
-    @Name("lastName")
-    String familyName;
+  @Name("lastName")
+  String familyNameOrWhatever;
 
-    bool isStarred;
+  bool isStarred;
 }
 ```
 
 
 ## Schema migration
 
-It is possible to change a schema between releases of your app (for example by adding collections) but it is very important to follow the rules of schema migration.
+It is possible to change the schema between releases of your app (for example by adding collections) but it is very important to follow the rules of schema migration.
 
-It very inexpensive to:
+You are allowed to do the following modifications:
  - Add new collections
  - Remove existing collections (the data will be deleted)
  - Change the nullability of a field (e.g. `int` -> `int?` or `List<String?>` -> `List<String>`)
- - Rename collections and fields annotated with `@DbName()`
+ - Add fields
+ - Remove fields
+ - Rename collections and fields annotated with `@Name()`
+ - Add indexes
+ - Remove indexes
 
-The following changes require a migration for every entry of that collection:
- - Add fields to existing collections
- - Remove fields from existing collections
+Be careful: If you rename a field or collection that is not annotated with `@Name()`, the field or collection will be dropped and recreated.
 
-:::caution
-Renaming a collection that is not annotated with `@DbName()` will delete and recreate this collection. All data in the collection will be lost.
-:::
-
-:::danger
-**DO NOT** change the type of fields in existing collections.
-:::
+**ILLEGAL MODIFICATIONS**
+- Changing the type of fields in existing collections
+- Changing the id of a collection

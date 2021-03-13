@@ -3,11 +3,11 @@ id: transactions
 title: Transactions
 ---
 
-In Isar, a transaction combines multiple database operations in a single unit of work. Most interactions with Isar implicitly use a transaction. Read & write access in Isar is [ACID](http://en.wikipedia.org/wiki/ACID).
+In Isar, a transaction combines multiple database operations in a single unit of work. Most interactions with Isar implicitly use transactions. Read & write access in Isar is [ACID](http://en.wikipedia.org/wiki/ACID) compliant.
 
 ## Explicit transactions
 
-With an explicit transaction you get a consistent view of the database. You should try to minimize the time a transaction is active. It is forbidden to do network calls or other long running operations in a transaction.
+With an explicit transaction you get a consistent snapshot of the database. You should try to minimize the time a transaction is active. It is forbidden to do network calls or other long running operations in a transaction.
 
 Transactions (especially write transactions) do have a cost and you should always try to group successive operations in a single transaction.
 
@@ -21,7 +21,7 @@ Transactions can either be synchronous or asynchronous. In synchronous transacti
 
 ### Read transactions
 
-Read transactions are optional but they allow you to do atomic reads and rely on a constistent state of the database. Async read transactions run in parallel to other read and write transactions.
+Explicit read transactions are optional but they allow you to do atomic reads and rely on a constistent state of the database. Internally Isar always uses implicit read transactions for all read operations. Async read transactions run in parallel to other read and write transactions.
 
 
 ### Write transactions
@@ -30,20 +30,25 @@ Unlike read operations, write operations in Isar always have to be wrapped in an
 
 When a write transaction finishes succesfully, it is automatically commited and all changes are written to disk. If an error occurs, the transaction is aborted and all the changes are discarded. Transactions are “all or nothing”: either all the writes within a transaction succeed, or none of them take effect. This helps guarantee data consistency.
 
+**Note:** When a database operation fails, the transaction is aborted and must no longer be used. Even if you catch the error in Dart.
+
 ```dart
 @Collection()
-class Contact with IsarObject {
+class Contact {
+  @Id()
+  int? id;
+
   String name;
 }
 
-// GOOD: move loop inside transaction
+// GOOD
 await isar.writeTxn((isar) async {
   for (var contact in getContacts()) {
     isar.contacts.put(contact);
   }
 });
 
-// BAD: move create transactions in loop
+// BAD: move loop inside transaction
 for (var contact in getContacts()) {
   await isar.writeTxn((isar) async {
     isar.contacts.put(contact);

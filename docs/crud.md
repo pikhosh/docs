@@ -8,14 +8,21 @@ When you have your Collections defined, learn how to manipulate them!
 ## Opening Isar
 Before you can do anything, you have to open an Isar instance. Each instance needs a directory with write permission.
 
-To use the default folder, `filesDir/isar` for Flutter apps:
-
 ```dart
 final isar = await openIsar();
 ```
 
-You can also pass a relative or absolute path to the `openIsar()` method to customize the storage location. You can either store the Isar instance in a global variable or use your favorite dependency injection package to manage it.
+You can use the default config or provide some of the following parameters.
 
+Config | Description
+--- | ---
+`name` | You can open multiple instances with distinct names. By default, `"isar"` is used.
+`path` | The storage location for this instance. You can pass a relative or absolute path. By default,  `NSDocumentDirectory` is used for iOS and `getDataDirectory` for Android. The final location is `path/name`. 
+`maxSize` | Sets the maximum instance size. The default is 1GB and you probably don't need to change it.
+
+You can either store the Isar instance in a global variable or use your favorite dependency injection package to manage it.
+
+If an instance is already open, calling `openIsar()` will yield the existing instance regardless of the specified parameters. That's useful for using isar in an isolate.
 
 ## Collections
 The Collection object is how you find, query, and create new records of a given type.
@@ -31,7 +38,7 @@ final contacts = isar.contacts;
 That was easy!
 
 
-### Get a record (by ID)
+### Get a record (by id)
 ```dart
 final contact = await contacts.get(someId);
 ```
@@ -59,17 +66,18 @@ To create, update, or delete records, use the respective operations wrapped in a
 ```dart
 await isar.writeTxn(() async {
   final contact = await contacts.get(someId)
-  contact.isStarred = false;
 
-  await contact.save();   // perform update operations
-  await contact.delete(); // or delete operations
+  contact.isStarred = false;
+  await contacts.put(contact); // perform update operations
+
+  await contact.delete(contact.id); // or delete operations
 });
 ```
 ➡️ Learn more: [Transactions](transactions)
 
 ### Create a new record
 
-When an object is not yet managed by Isar, you need to `.put()` it into a collection.
+When an object is not yet managed by Isar, you need to `.put()` it into a collection. If the id field is `null`, Isar will assign an auto-increment id.
 
 ```dart
 final newContact = Contact()
