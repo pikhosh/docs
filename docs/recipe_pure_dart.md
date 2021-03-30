@@ -26,7 +26,20 @@ https://github.com/isar/isar-core/releases/download/0.1.9/libisar_macos_x64.dyli
 https://github.com/isar/isar-core/releases/download/0.1.9/libisar_linux_x64.so
 ```
 
-## 3. Annotate classes
+## 3. Configure isar_generator
+
+Instruct isar_generator on excluding flutter-specific dependencies. Create a `build.yaml` file in the project root directory, if not already present. Include the following configuration.
+
+```yaml
+targets:
+  $default:
+    builders:
+      isar_generator|generator:
+        options:
+          flutter: false
+```
+
+## 4. Annotate classes
 
 Annotate your classes with `@Collection` and choose an id field.
 
@@ -40,7 +53,7 @@ class Contact {
 }
 ```
 
-## 4. Run code generator
+## 5. Run code generator
 
 Execute the following command to start the `build_runner`:
 
@@ -49,7 +62,7 @@ dart run build_runner build
 ```
 
 
-## 5. Open Isar instance
+## 6. Open Isar instance
 
 This opens an Isar instance at the default location.
 
@@ -58,7 +71,7 @@ final isar = await openIsar();
 ```
 
 
-## 6. Write and read from database
+## 7. Write and read from database
 
 Once your instance is open, you can start using the database.
 
