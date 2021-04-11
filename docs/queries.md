@@ -43,8 +43,7 @@ Condition | Description
 `.between(lower, upper)` | Matches values that are between `lower` (included) and `upper` (included).
 `.greaterThan(bound)` | Matches values that are greater than `bound`.
 `.lessThan(bound)` | Matches values that are less than `bound`. `null` values will be included by default because `null` is considered smaller than any other value.
-`.isNull()` | Matches values that are `null`.
-`.in(values)` | Matches values that are in the specified `values`. 
+`.isNull()` | Matches values that are `null`. 
 
 Let's assume the database contains four shoes with sizes 39, 40, 46 and one with unset (`null`) size. Unless you perform sorting, the values will be returned sorted by id.
 
@@ -55,8 +54,6 @@ isar.shoes.where().filter().sizeLessThan(40).findAll() // -> [39, null]
 isar.shoes.where().filter().sizeLessThan(40, include: true).findAll() // -> [39, null, 40]
 
 isar.shoes.where().filter().sizeBetween(39, 46, includeLower: false).findAll() // -> [40, 46]
-
-isar.shoes.where().filter().sizeIn([38, 39, 40]).findAll() // -> [39, 40]
 
 ```
 
@@ -82,7 +79,7 @@ If you want to use more than one condition, you can combine multiple filters usi
 ```dart
 final result = await isar.shoes.where().filter()
   .sizeEqualTo(46)
-  .and()          // Optional. Filters are implicitly combined with logical and.
+  .and() // Optional. Filters are implicitly combined with logical and.
   .isUnisexEqualTo(true)
   .findAll();
 ```
@@ -92,7 +89,7 @@ You can also group conditions using `.group()`:
 final result = await isar.shoes.where().filter()
   .sizeBetween(43, 46)
   .and()
-  .group((q) =>
+  .group((q) => q
     .modelNameContains('Crocs')
     .or()
     .isUnisexEqualTo(false)
@@ -128,8 +125,53 @@ All string operations have an optional `caseSensitive` parameter that defaults t
 A [wildcard string expression](https://en.wikipedia.org/wiki/Wildcard_character) is a string that uses normal characters with two special wildcard characters:
 - The `*` wildcard matches zero or more of any character
 - The `?` wildcard matches any character.
-For example, the wildcard string "d?g" matches "dog", "dig", and "dug", but not "ding", "dg", or "a dog".
+For example, the wildcard string `"d?g"` matches `"dog"`, `"dig"`, and `"dug"`, but not `"ding"`, `"dg"`, or `"a dog"`.
 
+### Query modifiers
+
+Sometimes it is necessary to build a query based on some conditions or for different values. Isar has a very powerful tool to build conditional queries:
+
+Modifier | Description
+--- | ---
+`.optional(condition, queryBuilder)` | Extends the query only if the `condition` is `true`.
+`.repeat(values, queryBuilder)` | Extends the query for each value in `values`.
+
+Modifiers can be combined however you like. Every part of a query can be optional or repeated but it does not always make sense. Repeatedly applying a limit for example will effectively only use the limit applied last.
+
+In this example we build a method that can find shoes with an optional filter:
+```dart
+Future<List<Shoe>> findShoes(int? sizeFilter) {
+  return isar.shoes.where()
+    .filter()
+    .optional(
+      sizeFilter != null,
+      (q) => q.sizeEqualTo(sizeFilter!), // only apply filter if sizeFilter != null
+    ).findAll();
+}
+```
+
+If you want to find all shoes that have one of multiple shoe sizes you can either write a conventional query or use the `repeat()` modifier:
+
+```dart
+
+final shoes1 = await isar.shoes.where()
+    .filter()
+    .sizeEqualTo(38)
+    .or()
+    .sizeEqualTo(40)
+    .or()
+    .sizeEqualTo(42)
+    .findAll();
+
+final shoes2 = await isar.shoes.where()
+    .filter()
+    .repeat(
+      [38, 40, 42],
+      (q, int size) => q.sizeEqualTo(size).or()
+    ).findAll();
+
+// shoes1 == shoes2
+```
 
 ### Links
 
@@ -220,39 +262,50 @@ If you use a single index in your query, the results are already sorted by the i
 Let's assume we have shoes in sizes `[43, 39, 48, 40, 42, 45]` and we want to find all shoes with a size greater than or equal to `42` and also have them sorted by size:
 
 ```dart
-final bigShoes = isar.shoes.where().sizeGreaterThan(42, include: true).findAll();
-// -> [42, 43, 45, 48]
+final bigShoes = isar.shoes.where().sizeGreaterThan(42).findAll();
+// -> [43, 45, 48]
 ````
 
 As you can see, the result is sorted by the `size` index. If you want to reverse the sort order, you can set `ascending` to `false`:
 
 ```dart
-final bigShoesDesc = isar.shoes.where(ascending: false).sizeGreaterThan(42, include: true).findAll();
-// -> [48, 45, 43, 42]
+final bigShoesDesc = await isar.shoes.where(ascending: false).sizeGreaterThan(42).findAll();
+// -> [48, 45, 43]
 ```
 
 Sometimes you don't want to use a where clause but still benefit from the implicit sorting. You can use the `any` where clause:
 
 ```dart
-final shoes = isar.shoes.where().anySize().findAll();
+final shoes = await isar.shoes.where().anySize().findAll();
 // -> [39, 40, 42, 43, 45, 48]
 ```
 
 If you use a composite index, the results are sorted by all fields in the index.
 
-**General rule of thumb:** If you need the results to be sorted, consider using an index for that purpose. Especially if you work with offset and limit.
 
+:::tip General rule of thumb:
 
+If you need the results to be sorted, consider using an index for that purpose. Especially if you work with `offset()` and `limit()`.
 
-Sometimes it's not possible of useful to use an index for sorting. For such cases, 
+:::
+
+Sometimes it's not possible of useful to use an index for sorting. For such cases, you should use indexes to reduce the number of resulting entries as much as possible.
 
 ## Unique values
 
-To return only unique values, use the distinct predicate. For example, to find out how many different shoe models you have in your Isar database:
+To return only entries with unique values, use the distinct predicate. For example, to find out how many different shoe models you have in your Isar database:
 
 ```dart
-RealmResults<Person> unique = realm.where(Person.class).distinct("name").findAll();
-You can only call distinct on integer and string fields; other field types will throw an exception. As with sorting, you can specify multiple fields.
+final shoes = await isar.shoes.where().distinctByModel().findAll();
+```
+
+You can also chain multiple distinct conditions for example to find all shoes with distinct model-size combinations:
+
+```dart
+final shoes = await isar.shoes.where()
+  .distinctByModel()
+  .distinctBySize()
+  .findAll();
 ```
 
 ### Where clause distinct
@@ -264,6 +317,21 @@ Another great advantages of indexes is that you get "free" sorting. When you que
 
 
 ## Offset & Limit
+
+It's often a good idea to limit the number of results from a query. You can do so by setting a `limit()`:
+
+```dart
+final firstTenShoes = await isar.shoes.where().limit(10).findAll();
+```
+
+By setting an `offset()` you can also paginate the results of your query.
+
+```dart
+final firstTenShoes = await isar.shoes.where()
+  .offset(20)
+  .limit(10)
+  .findAll();
+```
 
 ## Execution order
 
@@ -279,9 +347,42 @@ Isar queries are always executed in the same order:
 
 In the previous examples we used `.findAll()` to retrieve all matching objects. There are more operations available however:
 
-- `.findFirst()` / `findFirstSync()`: Retreive only the first matching object or `null` if none matches.
-- `.findAll()` / `findAllSync()`: Retreive all matching objects.
-- `.count()` / `countSync()`: Count how many objects match the query.
-- `.deleteFirst()` / `.deleteFirstSync()`: Delete the first matching object from the collection.
-- `.deleteAll()` / `.deleteAllSync()`: Delete all matching objects from the collection.
-- `.build()`: Compile the query to reuse it later.
+
+Operation | Description
+--- | ---
+`.findFirst()` | Retreive only the first matching object or `null` if none matches.
+`.findAll()` | Retreive all matching objects.
+`.count()` | Count how many objects match the query.
+`.deleteFirst()` | Delete the first matching object from the collection.
+`.deleteAll()` | Delete all matching objects from the collection.
+`.build()` | Compile the query to reuse it later.
+
+## Property queries
+
+If you are only interested in the values of a single property, you can use a property query. Just build a normal query and select a property:
+
+```dart
+List<String> models = await isar.shoes.where().modelProperty().findAll();
+
+List<int> sizes = await isar.shoes.where().sizeProperty().findAll();
+```
+
+Using only a single property saves time during deserialization.
+
+## Aggregation
+
+You can also aggregate the values of a property query. The following aggregation operations are available:
+
+Operation | Description
+--- | ---
+`.min()` | Finds the minimum value or `null` if none matches.
+`.max()` | Finds the maximum value or `null` if none matches.
+`.sum()` | Sums all values.
+`.average()` | Calculates the average of all values or `NaN` if none matches.
+
+Using aggregations is vastly faster than finding all matching objects and performing the aggregation manually.
+
+
+## Dynamic queries
+
+All of the examples above used the QueryBuilder and the generated static extension methods. Maybe you want to create very dynamic queries or even a custom query language (like the Isar Inspector. In that case you can use the `buildQuery()` method:
