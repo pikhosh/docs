@@ -228,7 +228,7 @@ class Shoe with IsarObject {
 
   String model;
 
-  @Index(composite = ['size'])
+  @Index(composite: [CompositeIndex('size')])
   bool isUnisex;
 }
 ```
