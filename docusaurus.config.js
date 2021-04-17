@@ -85,7 +85,7 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/isar/docs/edit/master/',
+          editUrl: 'https://github.com/isar/docs/edit/main/',
           routeBasePath: '/',
         },
         theme: {
