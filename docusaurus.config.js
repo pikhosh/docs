@@ -22,7 +22,7 @@ module.exports = {
           {
             tagName: 'link',
             rel: 'icon',
-            href: '/img/docusaurus.png',
+            href: '/img/isar.png',
           },
           {
             tagName: 'link',
@@ -32,7 +32,7 @@ module.exports = {
           {
             tagName: 'meta',
             name: 'theme-color',
-            content: 'rgb(37, 194, 160)',
+            content: '#4799fc',
           },
         ],
       },
