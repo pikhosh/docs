@@ -110,7 +110,7 @@ or:
 
 ```dart
 await isar.writeTxn(() async {
-  final idsOfUnstarredContacts = await contacts.where().idProperty().filter().isNotStarred().findAll();
+  final idsOfUnstarredContacts = await contacts.where().filter().isNotStarred().idProperty().findAll();
   contacts.deleteAll(idsOfUnstarredContacts);
 });
 ```
