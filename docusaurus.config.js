@@ -59,7 +59,7 @@ module.exports = {
           position: 'right',
         },
         {
-          href: 'https://pub.dev/documentation/isar/latest/',
+          href: 'https://pub.dev/documentation/isar/latest/isar/isar-library.html',
           label: 'API',
           position: 'right',
         },
