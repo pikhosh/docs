@@ -58,6 +58,11 @@ module.exports = {
           label: 'GitHub',
           position: 'right',
         },
+        {
+          href: 'https://pub.dev/documentation/isar/latest/isar/isar-library.html',
+          label: 'API',
+          position: 'right',
+        },
       ],
     },
     footer: {
