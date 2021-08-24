@@ -43,6 +43,11 @@ Execute the following command to start the `build_runner`:
 dart run build_runner build
 ```
 
+If you are using Flutter, try:
+
+```
+flutter pub run build_runner build
+```
 
 ## 4. Open Isar instance
 
