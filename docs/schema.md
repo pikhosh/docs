@@ -100,7 +100,7 @@ It is possible to change the schema between releases of your app (for example by
 You are allowed to do the following modifications:
  - Add new collections
  - Remove existing collections (the data will be deleted)
- - Change the nullability of a field (e.g. `int` -> `int?` or `List<String?>` -> `List<String>`)
+ - Change the nullability of a field (e.g. `int` -> `int?` or `List<String?>?` -> `List<String>`)
  - Add fields
  - Remove fields
  - Rename collections and fields annotated with `@Name()`
@@ -108,6 +108,8 @@ You are allowed to do the following modifications:
  - Remove indexes
 
 Be careful: If you rename a field or collection that is not annotated with `@Name()`, the field or collection will be dropped and recreated.
+
+Deleted fields will still remain in the database. You are not allowed to recreate deleted fields with a different type.
 
 **ILLEGAL MODIFICATIONS**
 - Changing the type of fields in existing collections

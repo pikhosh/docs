@@ -54,7 +54,10 @@ flutter pub run build_runner build
 This opens an Isar instance at the default location.
 
 ```dart
-final isar = await openIsar();
+final isar = await Isar.open(
+  schemas: [ContactSchema],
+  directory: 'some/directory',
+);
 ```
 
 
@@ -67,7 +70,7 @@ final contact = Contact()
   ..name = "My first contact";
 
 await isar.writeTxn((isar) async {
-  isar.contacts.put(contact);
+  contact.id = isar.contacts.put(contact);
 });
 
 final allContacts = await isar.contacts.where().findAll();

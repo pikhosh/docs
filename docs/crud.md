@@ -10,21 +10,24 @@ When you have your Collections defined, learn how to manipulate them!
 Before you can do anything, you have to open an Isar instance. Each instance needs a directory with write permission.
 
 ```dart
-final isar = await openIsar();
+final isar = await Isar.open(
+  schemas: [ContactSchema],
+  directory: 'some/directory',
+);
 ```
 
 You can use the default config or provide some of the following parameters.
 
-| Config          | Description                                                                                                                                                                                                |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`          | You can open multiple instances with distinct names. By default, `"isar"` is used.                                                                                                                         |
-| `directory`     | The storage location for this instance. You can pass a relative or absolute path. By default, `NSDocumentDirectory` is used for iOS and `getDataDirectory` for Android. The final location is `path/name`. |
-| `maxSize`       | Sets the maximum instance size. The default is 1GB and you probably don't need to change it.                                                                                                               |
-| `encryptionKey` | Optional 32 byte (256bit) key to encrypt the database                                                                                                                                                      |
+| Config |  Description |
+| --- | --- |
+| `name` | You can open multiple instances with distinct names. By default, `"isar"` is used. |
+| `schemas` | A list of all collection schemas you want to use. All instances need to use the same schemas. |
+| `directory` | The storage location for this instance. You can pass a relative or absolute path. By default, `NSDocumentDirectory` is used for iOS and `getDataDirectory` for Android. The final location is `path/name`. |
+| `relaxedDurability` | Relaxes the durability guarantee to increase write performance. In case of a system crash (not app crash), it is possible to loose the last commited transaction. Corruption is not possible |
 
 You can either store the Isar instance in a global variable or use your favorite dependency injection package to manage it.
 
-If an instance is already open, calling `openIsar()` will yield the existing instance regardless of the specified parameters. That's useful for using isar in an isolate.
+If an instance is already open, calling `Isar.open()` will yield the existing instance regardless of the specified parameters. That's useful for using isar in an isolate.
 
 ## Collections
 
@@ -82,7 +85,7 @@ await isar.writeTxn(() async {
 
 ### Create a new record
 
-When an object is not yet managed by Isar, you need to `.put()` it into a collection. If the id field is `null`, Isar will assign an auto-increment id.
+When an object is not yet managed by Isar, you need to `.put()` it into a collection. If the id field is `null`, Isar will use an auto-increment id. You have to assign the id yourself.
 
 ```dart
 final newContact = Contact()
@@ -90,7 +93,7 @@ final newContact = Contact()
   ..lastName = "Einstein"
   ..isStarred = true;
 await isar.writeTxn(() async {
-  await contacts.put(newContact);
+  newContact.id = await contacts.put(newContact);
 })
 ```
 

@@ -4,7 +4,7 @@ module.exports = {
     {
       type: "category",
       label: "Concepts",
-      items: ['schema', 'crud', 'queries', 'transactions', 'indexes', 'links', 'watchers', 'type-converters', 'generator_config', 'limitations'],
+      items: ['schema', 'crud', 'queries', 'transactions', 'indexes', 'links', 'watchers', 'type-converters', 'limitations'],
     },
     {
       type: "link",

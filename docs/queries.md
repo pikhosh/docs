@@ -257,7 +257,7 @@ Sorting a lot of results can be an expensive operation. Luckily, we can again us
 
 ### Where clause sorting
 
-If you use a single index in your query, the results are already sorted by the index. That's a big deal!
+If you use a **single*Ü index in your query, the results are already sorted by the index. That's a big deal!
 
 Let's assume we have shoes in sizes `[43, 39, 48, 40, 42, 45]` and we want to find all shoes with a size greater than or equal to `42` and also have them sorted by size:
 
@@ -266,10 +266,10 @@ final bigShoes = isar.shoes.where().sizeGreaterThan(42).findAll();
 // -> [43, 45, 48]
 ````
 
-As you can see, the result is sorted by the `size` index. If you want to reverse the sort order, you can set `ascending` to `false`:
+As you can see, the result is sorted by the `size` index. If you want to reverse the sort order, you can set `sort` to `Sort.desc`:
 
 ```dart
-final bigShoesDesc = await isar.shoes.where(ascending: false).sizeGreaterThan(42).findAll();
+final bigShoesDesc = await isar.shoes.where(sort: Sort.desc).sizeGreaterThan(42).findAll();
 // -> [48, 45, 43]
 ```
 
@@ -315,6 +315,17 @@ If you only use a single where clause you can instead rely on the index to perfo
 
 Another great advantages of indexes is that you get "free" sorting. When you query results using a **single** where clause, the results are sorted by the index. For composite indexes, the result are sorted by all fields in the index.
 
+```dart
+final shoes = await isar.shoes.where(distinct: true)
+  .anySize()
+  .findAll();
+```
+
+:::tip Advanced:
+
+You can use where clause sorting and distinct even if you have multiple where clauses. The only restriction is that those where clauses are not overlapping and use the same index. Be careful if you rely on this!
+
+:::
 
 ## Offset & Limit
 

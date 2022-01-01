@@ -34,7 +34,7 @@ class Product {
 | 6 | Carpet | 60 |
 | 7 | Pillow | 30 |
 | 8 | Computer | 650 |
-| 9 | Soap | 2 |
+| 9 | Soap | 2 |
 
 A query that tries to find all products that cost more than €30 has to search through all nine rows. That's not an issue for nine rows but it will become a problem for 100k rows.
 
@@ -173,6 +173,10 @@ final result = await isar.where()
   .findAll() // -> [Daniel, David]
 ```
 
+## Multi-entry index
+
+If you index a list using `IndexType.value`, Isar will automatically create a multi-entry index and each item in the array is indexed towards the object.
+
 ## Unique indexes
 
 A unique index ensures the index does not contain any duplicate values.
@@ -181,14 +185,10 @@ A unique index may consist of one or multiple properties. If a unique index has 
 
 Any attempt to insert or update data into the unique index that causes a duplicate will result in an error.
 
-### Replace indexes
-
-A replace index is always unique. The only difference to a regular unique index is what happens if you try to insert a duplicate value. Rather than throwing an exception the replace index will replace existing objects with the same value.
-
 
 ## Index type
 
-There are multiple different type for indexes:
+There are different types of indexes:
 
 ### Value index
 
@@ -196,8 +196,8 @@ This is the default type and also the only allowed type for all properties that 
 
 ### Hash index
 
-Strings are hashed to reduce the storage required by the index. The disadvantage of hash indexes is that they can't be used for prefix scans (`startsWith` where clauses.
+Strings and Lists can be hashed to reduce the storage required by the index. The disadvantage of hash indexes is that they can't be used for prefix scans (`startsWith` where clauses).
 
-### Word index
+### HashElements index
 
-Strings are splitted on Grapheme Clusters or word boundaries, according to the [Unicode Standard Annex #29](https://www.unicode.org/reports/tr29/) rules and stored individually. Can be used for full-text search.
+String lists can either be hashed completely (using `IndexType.hash`) or the elements of the list can be hashed (using `IndexType.hashElements`).
