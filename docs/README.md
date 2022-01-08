@@ -4,6 +4,8 @@ title: Quickstart
 slug: /
 ---
 
+# Quickstart
+
 ## 1. Add dependencies
 
 First, add Isar to your project. Add the following packages to your `pubspec.yaml`. Always use the latest version.
