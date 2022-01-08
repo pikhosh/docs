@@ -3,6 +3,8 @@ id: links
 title: Links
 ---
 
+# Links
+
 Links allow you to express relationships between objects — such as the author (User) of a Comment, or the Post the comment belongs to. 
 
 ## IsarLink

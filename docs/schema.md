@@ -3,6 +3,8 @@ id: schema
 title: Schema
 ---
 
+# Schema
+
 When using Isar, you're dealing with Collections. A collection can only contain a single type of Dart object. To let Isar know which objects you want to store, you need to annotate your classes with `@Collection()`. The Isar code generator will take care of the rest. All the collections combined are called the "database schema".
 
 ## Annotating classes

@@ -3,6 +3,8 @@ id: crud
 title: Create, Read, Update, Delete
 ---
 
+# Create, Read, Update, Delete
+
 When you have your Collections defined, learn how to manipulate them!
 
 ## Opening Isar
