@@ -3,6 +3,8 @@ id: queries
 title: Queries
 ---
 
+# Queries
+
 Querying is how you find records that match certain conditions, for example:
 
 - Find all starred contacts

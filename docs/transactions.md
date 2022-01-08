@@ -3,6 +3,8 @@ id: transactions
 title: Transactions
 ---
 
+# Transactions
+
 In Isar, a transaction combines multiple database operations in a single unit of work. Most interactions with Isar implicitly use transactions. Read & write access in Isar is [ACID](http://en.wikipedia.org/wiki/ACID) compliant.
 
 ## Explicit transactions

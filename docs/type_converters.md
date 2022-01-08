@@ -3,6 +3,8 @@ id: type-converters
 title: Type Converters
 ---
 
+# Type Converters
+
 Isar only supports storing basic types like numbers and lists but you can use type converters to use other types like Enums with Isar.
 
 ## Creating a `TypeConverter`
