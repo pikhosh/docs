@@ -66,7 +66,7 @@ await isar.users.put(user);
 
 ## Watching Queries
 
-It is even possible to watch entire queries. Isar does its best to only notify you when the query results actually change. They will however not be notified if links cause the query to change. Use a collection watcher if you need to be notified about that.
+It is even possible to watch entire queries. Isar does its best to only notify you when the query results actually change. You will however not be notified if links cause the query to change. Use a collection watcher if you need to be notified about that.
 
 ```dart
 Query<User> usersWithA = isar.users.filter()
