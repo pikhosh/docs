@@ -29,7 +29,7 @@ module.exports = {
         '/': {
             lang: 'en-US',
             title: 'Isar Database',
-            description: 'Super Fast Cross Platform Database for Flutter & Web Apps',
+            description: 'Super Fast Cross Platform Database for Flutter',
         },
     },
     themeConfig: {
@@ -46,7 +46,7 @@ module.exports = {
         sidebar: [
             {
                 text: 'Quickstart',
-                link: '/',
+                link: '/quickstart.md',
             },
             {
                 text: 'Concepts',

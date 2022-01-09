@@ -1,5 +1,4 @@
 ---
-id: links
 title: Links
 ---
 

@@ -1,5 +1,4 @@
 ---
-id: type-converters
 title: Type Converters
 ---
 

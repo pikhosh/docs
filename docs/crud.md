@@ -1,5 +1,4 @@
 ---
-id: crud
 title: Create, Read, Update, Delete
 ---
 

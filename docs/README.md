@@ -1,79 +1,23 @@
 ---
-id: quickstart
-title: Quickstart
-slug: /
+home: true
+title: Home
+heroImage: /isar.svg
+actions:
+  - text: Let's Get Started
+    link: /quickstart.md
+    type: primary
+features:
+  - title: 💙 Made for Flutter
+    details: Minimal setup, Easy to use, no config, no boilerplate. Just add a few lines of code to get started.
+  - title: 🚀 Highly scalable
+    details: Store hundreds of thousands of records in a single database and query them efficiently.
+  - title: 🍭 Feature rich
+    details: Isar has a rich set of features to help you manage your data. Composite & multi-entry indexes, query modifiers, JSON support and more.
+  - title: 🔎 Full-text search
+    details: Isar has built in full-text search. Create a multi-entry index and search for records easily.
+  - title: 🧪 ACID semantics
+    details: Isar ACID compliant and transactions are handled automatically and all changes are rolled back if an error occurs.
+  - title: 💃 Static typing
+    details: The unique query syntax is very powerful and statically typed. No need to worry about runtime errors.
+footer: Apache Licensed | Copyright © 2022 Simon Leier
 ---
-
-# Quickstart
-
-## 1. Add dependencies
-
-First, add Isar to your project. Add the following packages to your `pubspec.yaml`. Always use the latest version.
-
-```yaml
-dependencies:
-  isar: any
-  isar_flutter: any
-
-dev_dependencies:
-  isar_generator: any
-  build_runner: any
-```
-
-For non-Flutter projects, you need to manually include the Isar Core binaries.
-
-
-## 2. Annotate classes
-
-Annotate your classes with `@Collection` and choose an id field.
-
-```dart
-@Collection()
-class Contact {
-  @Id()
-  int? id;
-  
-  String name;
-}
-```
-
-## 3. Run code generator
-
-Execute the following command to start the `build_runner`:
-
-```
-dart run build_runner build
-```
-
-If you are using Flutter, try:
-
-```
-flutter pub run build_runner build
-```
-
-## 4. Open Isar instance
-
-This opens an Isar instance at the default location.
-
-```dart
-final isar = await Isar.open(
-  schemas: [ContactSchema],
-  directory: 'some/directory',
-);
-```
-
-
-## 5. Write and read from database
-
-Once your instance is open, you can start using the database.
-
-```dart
-final contact = Contact()
-  ..name = "My first contact";
-
-await isar.writeTxn((isar) async {
-  contact.id = isar.contacts.put(contact);
-});
-
-final allContacts = await isar.contacts.where().findAll();
-```

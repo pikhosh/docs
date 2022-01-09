@@ -1,5 +1,4 @@
 ---
-id: queries
 title: Queries
 ---
 

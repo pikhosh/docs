@@ -1,5 +1,4 @@
 ---
-id: indexes
 title: Indexes
 ---
 
