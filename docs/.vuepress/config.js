@@ -34,13 +34,14 @@ module.exports = {
     },
     themeConfig: {
         logo: '/isar.svg',
-        repo: 'isar/docs',
+        repo: 'isar/isar',
+        docsRepo: 'isar/docs',
         docsDir: 'docs',
         contributors: true,
         navbar: [
             {
                 text: 'API',
-                link: 'https://github.com',
+                link: 'https://pub.dev/documentation/isar/latest/isar/isar-library.html',
             },
         ],
         sidebar: [
