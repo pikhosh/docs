@@ -8,7 +8,7 @@ When using Isar, you're dealing with Collections. A collection can only contain 
 
 ## Annotating classes
 
-The Isar generator will find all classes annotated with `@Collection()`. All model classes need to define an id by annotating a property with `@Id()`. Only `int` properties may be used as id.
+The Isar generator will find all classes annotated with `@Collection()`. 
 
 ```dart
 @Collection()
@@ -24,13 +24,19 @@ class Contact {
 }
 ```
 
+| Config |  Description |
+| --- | --- |
+| `inheritance` | Control whether fields of parent classes and mixins will be stored in Isar. Enabled by default. |
+| `accessor` | Allows you to rename the default collection accessor (for example `isar.contacts` for the `Contact` collection). |
+
 ### Id
 
-Each class needs and `int` field annotated with `@Id()` that uniquely identifies an object. If a class has a field called `id`, you can omit the `@Id()` annotation.
+All model classes need to define an id by annotating a property with `@Id()` that uniquely identifies an object. Only `int` properties may be used as id. If a class has a field called `id`, you can omit the `@Id()` annotation.
 
 ```dart
 @Collection()
 class Pet {
+  @Id()
   int? id; // field is called id so an @Id() annotation is not required
 
   String name;
@@ -39,7 +45,11 @@ class Pet {
 
 Isar automatically indexes id fields, which allows you to efficiently read and modify objects based on their id.
 
-You can either set ids yourself or by setting them to `null` request Isar to assign an auto-increment id.
+You can either set ids yourself or request Isar to assign an auto-increment id. If the `id` field is `null`, Isar will use an auto-increment id. You can also assign `Isa.autoIncrement` to the id field to request an auto-increment id.
+
+:::tip
+Since `int` is a 64-bit signed integer, the first auto-increment id will be `-9223372036854775807`. Just store an object with an id of `0` to get positive auto-increment ids.
+:::
 
 ### Supported types
 
@@ -108,10 +118,13 @@ You are allowed to do the following modifications:
  - Add indexes
  - Remove indexes
 
-Be careful: If you rename a field or collection that is not annotated with `@Name()`, the field or collection will be dropped and recreated.
+:::warning BE CAREFUL
+If you rename a field or collection that is not annotated with `@Name()`, the field or collection will be dropped and recreated.
+:::
 
 Deleted fields will still remain in the database. You are not allowed to recreate deleted fields with a different type.
 
-**ILLEGAL MODIFICATIONS**
-- Changing the type of fields in existing collections
-- Changing the id of a collection
+:::danger ILLEGAL MODIFICATIONS
+- Changing the type of fields in existing collections (even previously deleted ones)
+- Creating a unique index for a property with duplicate values
+:::

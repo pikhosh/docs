@@ -58,7 +58,7 @@ final dir = await getApplicationSupportDirectory();
 
 final isar = await Isar.open(
   schemas: [ContactSchema],
-  directory: dir.path,
+  path: dir.path,
 );
 ```
 

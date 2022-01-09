@@ -4,7 +4,7 @@ title: Transactions
 
 # Transactions
 
-In Isar, a transaction combines multiple database operations in a single unit of work. Most interactions with Isar implicitly use transactions. Read & write access in Isar is [ACID](http://en.wikipedia.org/wiki/ACID) compliant.
+In Isar, transactions combines multiple database operations in a single unit of work. Most interactions with Isar implicitly use transactions. Read & write access in Isar is [ACID](http://en.wikipedia.org/wiki/ACID) compliant. Transactions are automatically rolled back if an error occurs.
 
 ## Explicit transactions
 
@@ -31,7 +31,9 @@ Unlike read operations, write operations in Isar always have to be wrapped in an
 
 When a write transaction finishes succesfully, it is automatically commited and all changes are written to disk. If an error occurs, the transaction is aborted and all the changes are discarded. Transactions are “all or nothing”: either all the writes within a transaction succeed, or none of them take effect. This helps guarantee data consistency.
 
-**Note:** When a database operation fails, the transaction is aborted and must no longer be used. Even if you catch the error in Dart.
+:::warning
+When a database operation fails, the transaction is aborted and must no longer be used. Even if you catch the error in Dart.
+:::
 
 ```dart
 @Collection()
@@ -39,7 +41,7 @@ class Contact {
   @Id()
   int? id;
 
-  String name;
+  late String name;
 }
 
 // GOOD
@@ -57,6 +59,6 @@ for (var contact in getContacts()) {
 }
 ```
 
-:::warning
-Write transactions block each other. Make sure that your write transaction does not depend on another write transaction or you can easily deadlock your app.
+:::danger
+Write transactions block each other. Make sure that you do not await another write transaction in a write transaction or you can easily deadlock your app.
 :::
