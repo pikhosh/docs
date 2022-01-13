@@ -25,6 +25,20 @@ module.exports = {
             { name: 'apple-mobile-web-app-status-bar-style', content: 'black' },
         ],
         [
+            'script',
+            {
+                async: "",
+                src: "https://www.googletagmanager.com/gtag/js?id=G-NX9QJRWFGX"
+            }
+        ],
+        [
+            'script', {},
+            `window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-NX9QJRWFGX');`
+        ],
+        [
             'script', {},
             `(function(h,o,t,j,a,r){
                 h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
@@ -90,10 +104,6 @@ module.exports = {
             '@vuepress/shiki',
             {
                 theme: 'one-dark-pro'
-            },
-            '@vuepress/google-analytics',
-            {
-                'id': 'G-NX9QJRWFGX'
             }
         ]
     ]
