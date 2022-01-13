@@ -24,6 +24,7 @@ module.exports = {
             'meta',
             { name: 'apple-mobile-web-app-status-bar-style', content: 'black' },
         ],
+        ['script', { type: 'text/javascript', src: 'https://static.hotjar.com/c/hotjar-2781644.js?sv=6', async: 'true' }],
     ],
     locales: {
         '/': {
@@ -79,6 +80,10 @@ module.exports = {
             '@vuepress/shiki',
             {
                 theme: 'one-dark-pro'
+            },
+            '@vuepress/google-analytics',
+            {
+                'id': 'G-NX9QJRWFGX'
             }
         ]
     ]
