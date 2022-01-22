@@ -110,11 +110,6 @@ module.exports = {
             '@vuepress/shiki',
             {
                 theme: 'one-dark-pro'
-            },
-            '@vuepress/plugin-docsearch',
-            {
-                apiKey: '89c144838c1e4ca48d420c1ba7fd845e',
-                indexName: 'isar',
             }
         ]
     ]
