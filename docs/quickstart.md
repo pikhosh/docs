@@ -4,6 +4,8 @@ title: Quickstart
 
 # Quickstart
 
+Holy smokes you're here! Let's do this. We're going to be short on words and quick on code in this quickstart.
+
 ## 1. Add dependencies
 
 First, add Isar to your project. Add the following packages to your `pubspec.yaml`. Always use the latest version.

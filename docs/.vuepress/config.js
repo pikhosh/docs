@@ -84,7 +84,8 @@ module.exports = {
             {
                 text: 'Recipes',
                 children: [
-                    '/recipes/full_text_search.md'
+                    '/recipes/full_text_search.md',
+                    '/recipes/multi_isolate.md'
                 ],
             },
             {
