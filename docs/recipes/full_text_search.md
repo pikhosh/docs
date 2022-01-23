@@ -89,9 +89,9 @@ final posts = await isar.posts
 ```
 
 
-## I also need ends with
+## I also need `.endsWith()`
 
-Sure thing! We will use a trick to achieve ends with matching:
+Sure thing! We will use a trick to achieve `.endsWith()` matching:
 
 ```dart
 class Post {

@@ -9,15 +9,20 @@
 } 
 
 html.dark {
-    --c-brand: #4799fc;
-    --c-brand-light: #67abfd;
+    --c-brand: #67abfd;
+    --c-brand-light: #4799fc;
 
     --c-bg: rgb(18, 18, 18);
     --c-bg-light: rgb(30, 30, 30); // code block background
+    --code-bg-color: rgb(45, 45, 45); // code background
+
     --c-text: rgb(183,188,190); // normal text
     --c-text-light: rgba(183,188,190);
     --c-text-lighter: rgb(183,188,190); // code block text
     --c-text-lightest: rgba(183,188,190,0.7);
+
+    --c-border: rgb(45, 45, 45);
+    --c-border-dark: rgb(60, 60, 60);
 }
 
 h1 {

@@ -12,13 +12,16 @@ First, add Isar to your project. Add the following packages to your `pubspec.yam
 
 ```yaml
 dependencies:
-  isar: any
-  isar_flutter: any
+  isar: $latest
+  isar_flutter_libs: $latest # contains the binaries
+  isar_connect: $latest # if you want to use the Isar Inspector
 
 dev_dependencies:
-  isar_generator: any
+  isar_generator: $latest
   build_runner: any
 ```
+
+Replace `$latest` with the latest Isar version.
 
 For non-Flutter projects, you need to manually include the Isar Core binaries.
 

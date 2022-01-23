@@ -201,7 +201,7 @@ final result = await isar.where()
   .findAll() // -> [Daniel, David]
 ```
 
-## Multi-entry index
+## Multi-entry indexes
 
 If you index a list using `IndexType.value`, Isar will automatically create a multi-entry index and each item in the array is indexed towards the object. It works for all types of lists.
 

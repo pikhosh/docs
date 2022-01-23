@@ -64,11 +64,20 @@ module.exports = {
         sidebarDepth: 1,
         sidebar: [
             {
-                text: 'Quickstart',
-                link: '/quickstart.md',
+                text: 'TUTORIALS',
+                children: [
+                    {
+                        text: 'Quickstart',
+                        link: '/tutorials/quickstart.md',
+                    },
+                    {
+                        text: 'Contacts App',
+                        link: '/tutorials/contacts_app.md',
+                    },
+                ],
             },
             {
-                text: 'Concepts',
+                text: 'CONCEPTS',
                 children: [
                     '/schema.md',
                     '/crud.md',
@@ -82,7 +91,7 @@ module.exports = {
                 ],
             },
             {
-                text: 'Recipes',
+                text: 'RECIPES',
                 children: [
                     '/recipes/full_text_search.md',
                     '/recipes/multi_isolate.md'
