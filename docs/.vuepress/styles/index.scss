@@ -1,9 +1,63 @@
 :root {
     --c-brand: #4799fc;
     --c-brand-light: #67abfd;
+
+    --c-text: rgb(30, 30, 30); // normal text
+    --c-text-light: rgb(30, 30, 30);
+    --c-text-lighter: rgb(30, 30, 30); // code block text
 } 
 
 html.dark {
     --c-brand: #4799fc;
     --c-brand-light: #67abfd;
+
+    --c-bg: rgb(18, 18, 18);
+    --c-bg-light: rgb(30, 30, 30); // code block background
+    --c-text: rgb(183,188,190); // normal text
+    --c-text-light: rgba(183,188,190);
+    --c-text-lighter: rgb(183,188,190); // code block text
+    --c-text-lightest: rgba(183,188,190,0.7);
+
+    --c-danger: rgb(240, 158, 183); 
+    --c-danger-title: rgb(240, 158, 183); 
+    --c-danger-text: rgb(240, 158, 183); 
+    --c-danger-bg: rgba(142,187,240,0.3);
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    
+    font-size: 38px;
+    @media (min-width: 750px) {
+        font-size: 55px;
+    }
+}
+
+h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 27px;
+    @media (min-width: 750px) {
+        font-size: 38px;
+    }
+}
+
+h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    @media (min-width: 750px) {
+        font-size: 27px;
+    }
+}
+
+h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+}
+
+mark {
+    padding: 2px;
+}
+
+.action-button.primary {
+    font-weight: 800;
 }

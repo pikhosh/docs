@@ -3,7 +3,7 @@ home: true
 title: Home
 heroImage: /isar.svg
 actions:
-  - text: Let's Get Started
+  - text: Let's Get Started!
     link: /quickstart.html
     type: primary
 features:

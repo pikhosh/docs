@@ -18,19 +18,11 @@ module.exports = {
                 href: `/icon-512x512.png`,
             },
         ],
+        ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap' }],
         ['meta', { name: 'application-name', content: 'Isar Database' }],
         ['meta', { name: 'apple-mobile-web-app-title', content: 'Isar Database' }],
-        [
-            'meta',
-            { name: 'apple-mobile-web-app-status-bar-style', content: 'black' },
-        ],
-        [
-            'script',
-            {
-                async: "",
-                src: "https://www.googletagmanager.com/gtag/js?id=G-NX9QJRWFGX"
-            }
-        ],
+        ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
+        ['script', { async: '', src: "https://www.googletagmanager.com/gtag/js?id=G-NX9QJRWFGX" }],
         [
             'script', {},
             `window.dataLayer = window.dataLayer || [];
@@ -69,6 +61,7 @@ module.exports = {
                 link: 'https://pub.dev/documentation/isar/latest/isar/isar-library.html',
             },
         ],
+        sidebarDepth: 1,
         sidebar: [
             {
                 text: 'Quickstart',
