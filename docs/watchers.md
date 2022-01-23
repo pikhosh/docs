@@ -89,8 +89,12 @@ awaited isar.users.put(User()..name = 'Antonia');
 // prints: Users with A are: [User(name: Albert), User(name: Antonia)]
 ```
 
-Just like `watchObject()`, you can use `watchLazy()` to get notified when the query results change but not actually fetch the results.
-
 :::warning
 If you use offset & limit or distinct queries, Isar will also notify you when objects matching the filter but outside the query results change.
+:::
+
+Just like `watchObject()`, you can use `watchLazy()` to get notified when the query results change but not actually fetch the results.
+
+:::danger
+Rerunning queries for every change is very inefficient. You should use a lazy collection watcher instead.
 :::

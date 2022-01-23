@@ -57,6 +57,10 @@ module.exports = {
         contributors: true,
         navbar: [
             {
+                text: 'pub.dev',
+                link: 'https://pub.dev/packages/isar',
+            },
+            {
                 text: 'API',
                 link: 'https://pub.dev/documentation/isar/latest/isar/isar-library.html',
             },

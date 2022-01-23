@@ -12,7 +12,9 @@ An index works like a lookup table that allows the query engine to quickly find 
 
 You can easily search text using filters. There are various string operations for example `.startsWith()`, `.contains()` and `.matches()`. The problem with filters is that their runtime is `O(n)` where n is the number of records in the collection. String operations like `.matches()` are especially expensive.
 
+:::tip
 Full-text search is much faster than filters but indexes have some limitations. In this recipe we will explore how to work around these limitations.
+:::
 
 ## Basic example
 
@@ -128,7 +130,7 @@ connected
 connecting
 ```
 
-A popular example is the [Porter stemming algorithm](https://tartarus.org/martin/PorterStemmer/) stemming algorithm.
+Popular examples are the [Porter stemming algorithm](https://tartarus.org/martin/PorterStemmer/) and the [Snowball stemming algorithms](https://snowballstem.org/algorithms/).
 
 There are also more advanced forms like [lemmatization](https://en.wikipedia.org/wiki/Lemmatisation).
 

@@ -118,13 +118,15 @@ You are allowed to do the following modifications:
  - Add indexes
  - Remove indexes
 
-:::warning BE CAREFUL
+:::warning
+#### BE CAREFUL
 If you rename a field or collection that is not annotated with `@Name()`, the field or collection will be dropped and recreated.
 :::
 
 Deleted fields will still remain in the database. You are not allowed to recreate deleted fields with a different type.
 
-:::danger ILLEGAL MODIFICATIONS
+:::danger
+#### ILLEGAL MODIFICATIONS
 - Changing the type of fields in existing collections (even previously deleted ones)
 - Creating a unique index for a property with duplicate values
 :::

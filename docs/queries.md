@@ -148,7 +148,9 @@ Modifier | Description
 `.optional(condition, queryBuilder)` | Extends the query only if the `condition` is `true`.
 `.repeat(values, queryBuilder)` | Extends the query for each value in `values`.
 
+:::tip
 Modifiers can be combined however you like. Every part of a query can be optional or repeated but it does not always make sense. Repeatedly applying a limit for example will effectively only use the limit applied last.
+:::
 
 In this example we build a method that can find shoes with an optional filter:
 ```dart
@@ -222,7 +224,11 @@ Link filters evaluate to `true` if at least one linked object matches the condit
 ## Where clauses
 Where clauses are a very powerful tool but it can be a little difficult to get them right.
 
-In contrast to filters where clauses use the indexes you defined in the schema. Querying an index is a lot faster than filtering each record individually. As a basic rule, you should always try to reduce the records as much as possible using where clauses and do the remaining filtering using filters.
+In contrast to filters where clauses use the indexes you defined in the schema. Querying an index is a lot faster than filtering each record individually.
+
+:::tip
+As a basic rule, you should always try to reduce the records as much as possible using where clauses and do the remaining filtering using filters.
+:::
 
 You can combine where clauses using logical **or**.
 
@@ -314,7 +320,7 @@ final shoes = await isar.shoes.where()
 
 If you use a composite index, the results are sorted by all fields in the index.
 
-:::tip GENERAL RULE OF THUMB
+:::tip
 If you need the results to be sorted, consider using an index for that purpose. Especially if you work with `offset()` and `limit()`.
 :::
 
@@ -354,7 +360,7 @@ final shoes = await isar.shoes.where(distinct: true)
   .findAll();
 ```
 
-:::tip ADVANCED
+:::tip
 You can even use multiple where clause for sorting and distinct. The only restriction is that those where clauses are not overlapping and use the same index. For correct sorting they also need to be applied in sort-order. Be very careful if you rely on this!
 :::
 

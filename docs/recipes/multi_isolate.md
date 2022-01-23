@@ -68,4 +68,5 @@ There are a few interesting things to note in the example above:
 
 - `isar.posts.watchLazy()` is called in the UI isolate and is notified even if the posts are changed in another isolate.
 - We did not need to specify the path of the instance because it is already open in the main isolate.
+- Instances are referenced by name. The default name is `isar` but in this example we set it to `myInstance`.
 - We used a synchronous transaction to create the posts. Blocking our new isolate is no problem and synchronous transactions are a little faster.

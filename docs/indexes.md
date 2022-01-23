@@ -112,7 +112,7 @@ There are different types of indexes. Most of the time you'll want to use a `Ind
 
 This is the default type and also the only allowed type for all properties that don't hold Strings or Lists. Property values are used to build the index. In case of lists, the elements of the list are used. It is the most flexible but also space consuming of the three index types.
 
-:::tip WHEN TO USE?
+:::tip
 Use `IndexType.value` for primitives, Strings where you need `startsWith` where clauses and Lists if you want to search for individual elements.
 :::
 
@@ -120,7 +120,7 @@ Use `IndexType.value` for primitives, Strings where you need `startsWith` where 
 
 Strings and Lists can be hashed to reduce the storage required by the index. The disadvantage of hash indexes is that they can't be used for prefix scans (`startsWith` where clauses).
 
-:::tip WHEN TO USE?
+:::tip
 Use `IndexType.hash` for Strings and lists if you don't need `startsWith` and `anyEqualTo` where clauses.
 :::
 
@@ -128,7 +128,7 @@ Use `IndexType.hash` for Strings and lists if you don't need `startsWith` and `a
 
 String lists can either be hashed completely (using `IndexType.hash`) or the elements of the list can be hashed (using `IndexType.hashElements`) effectively creating a multi-entry index with hashed elements.
 
-:::tip WHEN TO USE?
+:::tip
 Use `IndexType.hashElements` for `List<String>` where you need `anyEqualTo` where clauses.
 :::
 
