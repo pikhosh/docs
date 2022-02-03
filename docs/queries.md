@@ -191,14 +191,14 @@ Query modifiers are especially useful when you want to build dynamic queries.
 If your model contains [links or backlinks](links) you filter your query based on the linked objects.
 
 ```dart
-@IsarCollection()
+@Collection()
 class Teacher {
     int? id;
 
     late String subject;
 }
 
-@IsarCollection()
+@Collection()
 class Student {
     int? id;
 
@@ -438,7 +438,11 @@ Using aggregations is vastly faster than finding all matching objects and perfor
 
 ## Dynamic queries
 
-All of the examples above used the QueryBuilder and the generated static extension methods. Maybe you want to create very dynamic queries or even a custom query language (like the Isar Inspector. In that case you can use the `buildQuery()` method:
+:::warning
+This section is most likely not relevant to you. You should skip it for now and come back later.
+:::
+
+All of the examples above used the QueryBuilder and the generated static extension methods. Maybe you want to create very dynamic queries or even a custom query language (like the Isar Inspector). In that case you can use the `buildQuery()` method:
 
 Parameter | Description
 --- | ---

@@ -109,14 +109,12 @@ class MyContactClass1 {
 It is possible to change the schema between releases of your app (for example by adding collections) but it is very important to follow the rules of schema migration.
 
 You are allowed to do the following modifications:
- - Add new collections
- - Remove existing collections (the data will be deleted)
+ - Add & remove collections
+ - Add & remove fields
  - Change the nullability of a field (e.g. `int` -> `int?` or `List<String?>?` -> `List<String>`)
- - Add fields
- - Remove fields
- - Rename collections and fields annotated with `@Name()`
- - Add indexes
- - Remove indexes
+ - Add & remove indexes
+ - Add & remove links
+ - Change between `Link<MyCol>` and `Links<MyCol>` (no data will be lost)
 
 :::warning
 #### BE CAREFUL

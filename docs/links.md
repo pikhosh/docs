@@ -4,7 +4,7 @@ title: Links
 
 # Links
 
-Links allow you to express relationships between objects — such as the author (User) of a Comment, or the Post the comment belongs to. 
+Links allow you to express relationships between objects — such as the author (User) of a Comment, or the Post the comment belongs to. You can express 1:1, 1:n, n:n relationships with Isar links.
 
 ## IsarLink
 
@@ -15,39 +15,40 @@ Links are lazy so you need to explicitly tell the `IsarLink` to load or save the
 Let's start by adding an IsarLink to a collection:
 
 ```dart
-@IsarCollection()
+@Collection()
 class Teacher {
-    int id;
+  int? id;
 
-    String subject;
+  late String subject;
 }
 
-@IsarCollection()
+@Collection()
 class Student {
-    int id;
+  int? id;
 
-    String name;
+  late String name;
 
-    final teachers = IsarLink<Teacher>();
+  final teachers = IsarLink<Teacher>();
 }
 ```
 
-We defined a link between teachers and students. Every student can have exactly one teacher in this example.
+We defined a link between teachers and students. Every student can have exactly one teacher in this example. We call the link `teachers` for the example in the next section.
 
 ```dart
 final mathTeacher = Teacher()..subject = 'Math';
 
 final linda = Student()
-    ..name = 'Linda'
-    ..teachers.value = mathTeacher;
+  ..name = 'Linda'
+  ..teachers.value = mathTeacher;
 
 await isar.writeTxn((isar) async {
-    await isar.students.put(linda);
-    await linda.teachers.save();
+  await isar.students.put(linda);
 });
 ```
 
-First we create a math teacher, then we assign it to a student. As you can see in this example, we have to `put()` the student manually (obviously) but the isar link takes care of inserting the teacher.
+First we create a the teacher and assign it to a student. As you can see in this example, we have to `put()` the student manually (obviously) but the link is saved automatically and also takes care of adding the `mathTeacher` to the database.
+
+Later, we change the link value and save it in a write transaction.
 
 ## IsarLinks
 
@@ -55,18 +56,18 @@ It would make more sense if the student from the previous example could have mul
 
 `IsarLinks<T>` extends `Set<T>` so it exposes all the methods that are allowed for sets.
 
-`IsarLinks` behaves much like `IsarLink` and is also lazy. To load all linked object call `linkProperty.load()`. To persist the changes call `linkProperty.saveChanges()`.
+`IsarLinks` behaves much like `IsarLink` and is also lazy. To load all linked object call `linkProperty.load()`. To persist the changes call `linkProperty.save()`.
 
-Internally both `IsarLink` and `IsarLinks` are represented in the same way. This allows us to upgrade the `IsarLink<Teacher>` from before to an `IsarLinks<Teacher>` to assign multiple teachers to a single student.
+Internally both `IsarLink` and `IsarLinks` are represented in the same way. This allows us to upgrade the `IsarLink<Teacher>` from before to an `IsarLinks<Teacher>` to assign multiple teachers to a single student (without loosing data).
 
 ```dart
-@IsarCollection()
+@Collection()
 class Student {
-    int id;
+  int? id;
 
-    String name;
+  late String name;
 
-    final teachers = IsarLinks<Teacher>();
+  final teachers = IsarLinks<Teacher>();
 }
 ```
 
@@ -75,14 +76,17 @@ This works because we did not change the name of the link (`teachers`) so Isar r
 ```dart
 final englishTeacher = Teacher()..subject = 'English';
 
-final linda = isar.students.where().filter().nameEqualTo('Linda').findFirst();
+final linda = isar.students.where()
+  .filter()
+  .nameEqualTo('Linda')
+  .findFirst();
 
 await linda.teachers.load();
 print(linda.teachers); // {Teacher('Math')}
 
 linda.teachers.insert(englishTeacher);
 await isar.writeTxn((isar) async {
-    await linda.teachers.saveChanges();
+  await linda.teachers.save();
 });
 
 print(linda.teachers); // {Teacher('Math'), Teacher('English')}
@@ -99,14 +103,14 @@ Backlinks do not require additional memory or resources and you can freely add, 
 We want to know which students a specific teacher has so we define a backlink:
 
 ```dart
-@IsarCollection()
+@Collection()
 class Teacher {
-    int id;
+  int? id;
 
-    String subject;
+  late String subject;
 
-    @Backlink(to: 'teachers')
-    final students = IsarLinks<Student>();
+  @Backlink(to: 'teachers')
+  final students = IsarLinks<Student>();
 }
 ```
 
@@ -116,6 +120,6 @@ We need to specify the link to which the backlink points. It is possible to have
 
 `IsarLink` and `IsarLinks` both have a zero-arg constructor which should be used to assign the link property when the object is created. It is good practice to make link properties `final`.
 
-When you `put()` your object for the first time, the link gets initialized with source and target collection and you can call methods like `load()`, `save()` and `saveChanges()`.
+When you `put()` your object for the first time, the link gets initialized with source and target collection and you can call methods like `load()` and `save()`. A link starts tracking changes immediately after its creation so you can add and remove relations even before the link is initialized.
 
 It is illegal to move a link to another object and will lead to undefined behavior.
