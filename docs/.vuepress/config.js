@@ -89,7 +89,7 @@ module.exports = {
                     '/links.md',
                     '/watchers.md',
                     '/type_converters.md',
-                    '/limitations.md'
+                    '/faq.md'
                 ],
             },
             {
