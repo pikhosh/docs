@@ -15,6 +15,7 @@ Because queries are executed on the database, and not in Dart, they're really fa
 There are two different methods of filtering your records: Filters and where clauses. We'll start by taking a look at how filters work.
 
 ## Filters
+
 Filters are easy to use and understand. Depending on the type of your properties, there are different filter operations available most of which have self-explanatory names.
 
 Filters work by evaluating an expression for every object in the collection being filtered. If the expression resolves to `true`, Isar includes the object in the results. Filters have no effect on the ordering of the results.
@@ -38,17 +39,17 @@ class Shoe {
 
 Depending on the type of a field, there are different conditions available.
 
-Condition | Description
---- | ---
-`.equalTo(value)` | Matches values that are equal to the specified `value`. 
-`.between(lower, upper)` | Matches values that are between `lower` and `upper`.
-`.greaterThan(bound)` | Matches values that are greater than `bound`.
-`.lessThan(bound)` | Matches values that are less than `bound`. `null` values will be included by default because `null` is considered smaller than any other value.
-`.isNull()` | Matches values that are `null`. 
+| Condition                | Description                                                                                                                                     |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.equalTo(value)`        | Matches values that are equal to the specified `value`.                                                                                         |
+| `.between(lower, upper)` | Matches values that are between `lower` and `upper`.                                                                                            |
+| `.greaterThan(bound)`    | Matches values that are greater than `bound`.                                                                                                   |
+| `.lessThan(bound)`       | Matches values that are less than `bound`. `null` values will be included by default because `null` is considered smaller than any other value. |
+| `.isNull()`              | Matches values that are `null`.                                                                                                                 |
 
 Let's assume the database contains four shoes with sizes 39, 40, 46 and one with unset (`null`) size. Unless you perform sorting, the values will be returned sorted by id.
 
-```dart 
+```dart
 
 isar.shoes.filter()
   .sizeLessThan(40)
@@ -68,12 +69,12 @@ isar.shoes.filter()
 
 You can composit predicates using the following logical operators:
 
-Operator | Description
---- | ---
-`.and()` | Evaluates to `true` if both left-hand and right-hand expressions are `true`.
-`.or()` | Evaluates to `true` if either expression returns `true`.
-`.not()` | Negates the result of the following expression.
-`.group()` | Group conditions and allow to specify order of evaluation.
+| Operator   | Description                                                                  |
+| ---------- | ---------------------------------------------------------------------------- |
+| `.and()`   | Evaluates to `true` if both left-hand and right-hand expressions are `true`. |
+| `.or()`    | Evaluates to `true` if either expression returns `true`.                     |
+| `.not()`   | Negates the result of the following expression.                              |
+| `.group()` | Group conditions and allow to specify order of evaluation.                   |
 
 If you want to find all shoes with size 46, you can use the following query:
 
@@ -92,9 +93,11 @@ final result = await isar.shoes.filter()
   .isUnisexEqualTo(true)
   .findAll();
 ```
+
 This query is equivalent to: `size == 46 && isUnisex == true`.
 
 You can also group conditions using `.group()`:
+
 ```dart
 final result = await isar.shoes.filter()
   .sizeBetween(43, 46)
@@ -106,6 +109,7 @@ final result = await isar.shoes.filter()
   )
   .findAll()
 ```
+
 This query is equivalent to `size >= 43 && size <= 46 && (modelName.contains('Nike') || isUnisex == false)`.
 
 To negate a condition or group, use logical **not** `.not()`:
@@ -117,42 +121,45 @@ final result = await isar.shoes.filter()
   .not().isUnisexEqualTo(true)
   .findAll();
 ```
+
 This query is equivalent to `size != 46 && isUnisex != true`.
 
 ### String conditions
 
 You can compare string values using these string operators. Regex-like wildcards allow more flexibility in search.
 
-Condition | Description
---- | ---
-`.startsWith(value)` | Matches string values that begins with provided `value`.
-`.contains(value)` | Matches string values that contain the provided `value`.
-`.endsWith(value)` | Matches string values that end with the provided `value`.
-`.matches(wildcard)` | Matches string values that match the provided `wildcard` pattern. 
+| Condition            | Description                                                       |
+| -------------------- | ----------------------------------------------------------------- |
+| `.startsWith(value)` | Matches string values that begins with provided `value`.          |
+| `.contains(value)`   | Matches string values that contain the provided `value`.          |
+| `.endsWith(value)`   | Matches string values that end with the provided `value`.         |
+| `.matches(wildcard)` | Matches string values that match the provided `wildcard` pattern. |
 
 **Case sensitivity**  
 All string operations have an optional `caseSensitive` parameter that defaults to `true`.
 
 **Wildcards:**  
 A [wildcard string expression](https://en.wikipedia.org/wiki/Wildcard_character) is a string that uses normal characters with two special wildcard characters:
+
 - The `*` wildcard matches zero or more of any character
 - The `?` wildcard matches any character.
-For example, the wildcard string `"d?g"` matches `"dog"`, `"dig"`, and `"dug"`, but not `"ding"`, `"dg"`, or `"a dog"`.
+  For example, the wildcard string `"d?g"` matches `"dog"`, `"dig"`, and `"dug"`, but not `"ding"`, `"dg"`, or `"a dog"`.
 
 ### Query modifiers
 
 Sometimes it is necessary to build a query based on some conditions or for different values. Isar has a very powerful tool to build conditional queries:
 
-Modifier | Description
---- | ---
-`.optional(condition, queryBuilder)` | Extends the query only if the `condition` is `true`.
-`.repeat(values, queryBuilder)` | Extends the query for each value in `values`.
+| Modifier                             | Description                                          |
+| ------------------------------------ | ---------------------------------------------------- |
+| `.optional(condition, queryBuilder)` | Extends the query only if the `condition` is `true`. |
+| `.repeat(values, queryBuilder)`      | Extends the query for each value in `values`.        |
 
 :::tip
 Modifiers can be combined however you like. Every part of a query can be optional or repeated but it does not always make sense. Repeatedly applying a limit for example will effectively only use the limit applied last.
 :::
 
 In this example we build a method that can find shoes with an optional filter:
+
 ```dart
 Future<List<Shoe>> findShoes(int? sizeFilter) {
   return isar.shoes.filter()
@@ -220,8 +227,8 @@ final result = await isar.students.filter()
 
 Link filters evaluate to `true` if at least one linked object matches the conditions.
 
-
 ## Where clauses
+
 Where clauses are a very powerful tool but it can be a little difficult to get them right.
 
 In contrast to filters where clauses use the indexes you defined in the schema. Querying an index is a lot faster than filtering each record individually.
@@ -270,11 +277,11 @@ final result = isar.shoes.where()
   .isUnisexEqualTo(true)
   .filter()
   .modelContains('Nike')
-  .findAll(); 
+  .findAll();
 ```
 
 The where clause is applied first to reduce the number of records to be filtered. Then the filter is applied to the remaining records.
- 
+
 ## Sorting
 
 You can define how the results should be sorted when executing the query using the `.sortBy()`, `.sortByDesc()`, `.thenBy()` and `.thenByDesc()` methods.
@@ -300,7 +307,7 @@ Let's assume we have shoes in sizes `[43, 39, 48, 40, 42, 45]` and we want to fi
 final bigShoes = isar.shoes.where()
   .sizeGreaterThan(42) // also sorts the results by size
   .findAll(); // -> [43, 45, 48]
-````
+```
 
 As you can see, the result is sorted by the `size` index. If you want to reverse the sort order, you can set `sort` to `Sort.desc`:
 
@@ -386,6 +393,7 @@ final firstTenShoes = await isar.shoes.where()
 ## Execution order
 
 Isar queries are always executed in the same order:
+
 1. Traverse primary or secondary index to find objects (apply where clauses)
 2. Filter objects
 3. Sort results
@@ -397,14 +405,14 @@ Isar queries are always executed in the same order:
 
 In the previous examples we used `.findAll()` to retrieve all matching objects. There are more operations available however:
 
-Operation | Description
---- | ---
-`.findFirst()` | Retreive only the first matching object or `null` if none matches.
-`.findAll()` | Retreive all matching objects.
-`.count()` | Count how many objects match the query.
-`.deleteFirst()` | Delete the first matching object from the collection.
-`.deleteAll()` | Delete all matching objects from the collection.
-`.build()` | Compile the query to reuse it later. This saves the cost to build a query if you want to execute it multiple times.
+| Operation        | Description                                                                                                         |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `.findFirst()`   | Retreive only the first matching object or `null` if none matches.                                                  |
+| `.findAll()`     | Retreive all matching objects.                                                                                      |
+| `.count()`       | Count how many objects match the query.                                                                             |
+| `.deleteFirst()` | Delete the first matching object from the collection.                                                               |
+| `.deleteAll()`   | Delete all matching objects from the collection.                                                                    |
+| `.build()`       | Compile the query to reuse it later. This saves the cost to build a query if you want to execute it multiple times. |
 
 ## Property queries
 
@@ -426,15 +434,14 @@ Using only a single property saves time during deserialization.
 
 You can also aggregate the values of a property query. The following aggregation operations are available:
 
-Operation | Description
---- | ---
-`.min()` | Finds the minimum value or `null` if none matches.
-`.max()` | Finds the maximum value or `null` if none matches.
-`.sum()` | Sums all values.
-`.average()` | Calculates the average of all values or `NaN` if none matches.
+| Operation    | Description                                                    |
+| ------------ | -------------------------------------------------------------- |
+| `.min()`     | Finds the minimum value or `null` if none matches.             |
+| `.max()`     | Finds the maximum value or `null` if none matches.             |
+| `.sum()`     | Sums all values.                                               |
+| `.average()` | Calculates the average of all values or `NaN` if none matches. |
 
 Using aggregations is vastly faster than finding all matching objects and performing the aggregation manually.
-
 
 ## Dynamic queries
 
@@ -444,17 +451,17 @@ This section is most likely not relevant to you. You should skip it for now and 
 
 All of the examples above used the QueryBuilder and the generated static extension methods. Maybe you want to create very dynamic queries or even a custom query language (like the Isar Inspector). In that case you can use the `buildQuery()` method:
 
-Parameter | Description
---- | ---
-`whereClauses` | The where clauses of the query.
-`whereDistinct` | Whether where clauses should return distinct values (only useful for single where clauses).
-`whereSort` | The traverse order of the where clauses (only useful for single where clauses).
-`filter` | The filter to apply to the results.
-`sortBy` | A list of properties to sort by.
-`distinctBy` | A list of properties to distinct by.
-`offset` | The offset of the results.
-`limit` | The maximum number of results to return.
-`property` | If non-null, only the values of this property are returned.
+| Parameter       | Description                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------- |
+| `whereClauses`  | The where clauses of the query.                                                             |
+| `whereDistinct` | Whether where clauses should return distinct values (only useful for single where clauses). |
+| `whereSort`     | The traverse order of the where clauses (only useful for single where clauses).             |
+| `filter`        | The filter to apply to the results.                                                         |
+| `sortBy`        | A list of properties to sort by.                                                            |
+| `distinctBy`    | A list of properties to distinct by.                                                        |
+| `offset`        | The offset of the results.                                                                  |
+| `limit`         | The maximum number of results to return.                                                    |
+| `property`      | If non-null, only the values of this property are returned.                                 |
 
 Let's create a dynamic query:
 

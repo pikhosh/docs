@@ -27,7 +27,7 @@ Some databases don't even support asynchronous access and require you to either 
 
 ### Where clauses?!
 
-> Why do ***I*** have to choose which index to use?
+> Why do **_I_** have to choose which index to use?
 
 There are multiple reasons. Many databases use heuristics to choose the best index for a given query. The database needs to collect additional usage data (-> overhead) might still choose the wrong index. It also makes creating a query slower.
 
@@ -37,15 +37,10 @@ Nobody knows your data better than you, the developer. So you can choose the opt
 
 Nope! Isar is often fast enough if you only rely on filters.
 
-### Are there limitations?
-
-- Only the first 1024 bytes of a string can be used for an prefix where clause
-
 ### Does Isar increase the size of my app?
 
-A little bit, yes. Isar will increase the download size of your app about 1 - 1.5 MB.
+A little bit, yes. Isar will increase the download size of your app about 1 - 1.5 MB. Isar Web only a few KB.
 
 ### The docs are incorrect / there is a typo.
 
 Oh no, sorry. Please [open an issue](https://github.com/isar/isar/issues/new/choose) or even better a [PR](https://github.com/isar/docs) to fix it 💪.
-

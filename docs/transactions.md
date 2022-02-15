@@ -61,7 +61,3 @@ for (var contact in getContacts()) {
   });
 }
 ```
-
-:::danger
-Write transactions block each other. Make sure that you do not await another write transaction in a write transaction or you can easily deadlock your app.
-:::

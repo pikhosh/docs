@@ -43,10 +43,10 @@ final posts = await isar.posts
 ```
 
 This query is super fast but there are some problems:
+
 1. We can only search for entire words
 2. We do not consider punctation
 3. We do not support other whitespace characters
-
 
 ## Splitting text the right way
 
@@ -60,7 +60,6 @@ Isar.splitWords('hello world'); // -> ['hello', 'world']
 Isar.splitWords('The quick (“brown”) fox can’t jump 32.3 feet, right?');
 // -> ['The', 'quick', 'brown', 'fox', 'can’t', 'jump', '32.3', 'feet', 'right']
 ```
-
 
 ## I want more control
 
@@ -90,7 +89,6 @@ final posts = await isar.posts
   .findAll();
 ```
 
-
 ## I also need `.endsWith()`
 
 Sure thing! We will use a trick to achieve `.endsWith()` matching:
@@ -109,6 +107,7 @@ class Post {
 ```
 
 Don't forget to also reverse the ending you want to search for:
+
 ```dart
 final posts = await isar.posts
   .where()
@@ -134,22 +133,19 @@ Popular examples are the [Porter stemming algorithm](https://tartarus.org/martin
 
 There are also more advanced forms like [lemmatization](https://en.wikipedia.org/wiki/Lemmatisation).
 
-
 ## Phonetic algorithms
 
-A [phonetic algorithm](https://en.wikipedia.org/wiki/Phonetic_algorithm) is an algorithm for indexing of words by their pronunciation. In other words, it allows you to find words that sound similar to the one you are looking for. 
+A [phonetic algorithm](https://en.wikipedia.org/wiki/Phonetic_algorithm) is an algorithm for indexing of words by their pronunciation. In other words, it allows you to find words that sound similar to the one you are looking for.
 
 :::warning
 Most phonetic algorithms only support a single language.
 :::
-
 
 ### Soundex
 
 [Soundex](https://en.wikipedia.org/wiki/Soundex) is a phonetic algorithm for indexing names by sound, as pronounced in English. The goal is for homophones to be encoded to the same representation so that they can be matched despite minor differences in spelling. It is a very simple algorithm and there are multiple improved versions.
 
 Using this algorithm, both `"Robert"` and `"Rupert"` return the same string `"R163"` while `"Rubin"` yields `"R150"`. `"Ashcraft"` and `"Ashcroft"` both yield `"A261"`.
-
 
 ### Double Metaphone
 

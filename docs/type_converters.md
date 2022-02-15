@@ -18,7 +18,7 @@ enum Relationship {
 }
 ```
 
-Writing a converter is easy, just map the enum to a supported type. For enums it is recommended to use the  enum index for mapping.
+Writing a converter is easy, just map the enum to a supported type. For enums it is recommended to use the enum index for mapping.
 
 ```dart
 class RelationshipConverter extends TypeConverter<Relationship, int> {

@@ -43,7 +43,7 @@ void main() {
         print('isolate finished');
     });
 
-    // after some time: 
+    // after some time:
     // > omg the posts changed!
     // > isolate finished
 }

@@ -13,8 +13,7 @@ First, add Isar to your project. Add the following packages to your `pubspec.yam
 ```yaml
 dependencies:
   isar: $latest
-  isar_flutter_libs: $latest # contains the binaries
-  isar_connect: $latest # if you want to use the Isar Inspector
+  isar_flutter_libs: $latest # contains the binaries (not required for web)
 
 dev_dependencies:
   isar_generator: $latest
@@ -25,17 +24,18 @@ Replace `$latest` with the latest Isar version.
 
 For non-Flutter projects, you need to manually include the Isar Core binaries.
 
-
 ## 2. Annotate classes
 
 Annotate your classes with `@Collection` and choose an id field.
 
 ```dart
+part 'contact.g.dart';
+
 @Collection()
 class Contact {
   @Id()
   int? id;
-  
+
   late String name;
 }
 ```
@@ -63,10 +63,9 @@ final dir = await getApplicationSupportDirectory();
 
 final isar = await Isar.open(
   schemas: [ContactSchema],
-  path: dir.path,
+  directory: dir.path,
 );
 ```
-
 
 ## 5. Write and read from database
 

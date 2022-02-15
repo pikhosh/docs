@@ -25,17 +25,17 @@ class Product {
 
 #### Data:
 
-id | name | price
---- | --- | ---
-1 | Book | 15
-2 | Table | 55
-3 | Chair | 25
-4 | Pencil | 3
-5 | Lightbulb | 12
-6 | Carpet | 60
-7 | Pillow | 30
-8 | Computer | 650
-9 | Soap | 2
+| id  | name      | price |
+| --- | --------- | ----- |
+| 1   | Book      | 15    |
+| 2   | Table     | 55    |
+| 3   | Chair     | 25    |
+| 4   | Pencil    | 3     |
+| 5   | Lightbulb | 12    |
+| 6   | Carpet    | 60    |
+| 7   | Pillow    | 30    |
+| 8   | Computer  | 650   |
+| 9   | Soap      | 2     |
 
 A query that tries to find all products that cost more than €30 has to search through all nine rows. That's not an issue for nine rows but it will become a problem for 100k rows.
 
@@ -61,17 +61,17 @@ class Product {
 
 #### Generated index:
 
-price | id
---- | ---
-2 | 9
-3 | 4
-12 | 5
-15 | 1
-25 | 3
-30 | 7
-<mark>**55**</mark> | <mark>**2**</mark>
-<mark>**60**</mark>| <mark>**6**</mark>
-<mark>**650**</mark>| <mark>**8**</mark>
+| price                | id                 |
+| -------------------- | ------------------ |
+| 2                    | 9                  |
+| 3                    | 4                  |
+| 12                   | 5                  |
+| 15                   | 1                  |
+| 25                   | 3                  |
+| 30                   | 7                  |
+| <mark>**55**</mark>  | <mark>**2**</mark> |
+| <mark>**60**</mark>  | <mark>**6**</mark> |
+| <mark>**650**</mark> | <mark>**8**</mark> |
 
 Now the query can be executed a lot faster. The executer can directly jump to the last three index rows and find the corresponding objects by their id.
 
@@ -102,7 +102,6 @@ final cheapestFast = await isar.products.where()
 ```
 
 The `.anyX()` where clause tells Isar to use an index just for sorting. You can also use a where clause like `.priceGreaterThan()` and still get sorted results.
-
 
 ## Index type
 
@@ -156,29 +155,29 @@ class Person {
 
 #### Data:
 
-id | name | age | hometown
---- | --- | --- | ---
-1 | Daniel | 20 | Berlin
-2 | Anne | 20 | Paris
-3 | Carl | 24 | San Diego
-4 | Simon | 24 | Munich
-5 | David | 20 | New York
-6 | Carl | 24 | London
-7 | Audrey | 30 | Prague
-8 | Anne | 24 | Paris
+| id  | name   | age | hometown  |
+| --- | ------ | --- | --------- |
+| 1   | Daniel | 20  | Berlin    |
+| 2   | Anne   | 20  | Paris     |
+| 3   | Carl   | 24  | San Diego |
+| 4   | Simon  | 24  | Munich    |
+| 5   | David  | 20  | New York  |
+| 6   | Carl   | 24  | London    |
+| 7   | Audrey | 30  | Prague    |
+| 8   | Anne   | 24  | Paris     |
 
 #### Generated index
 
-age | name | id
---- | --- | ---
-20 | Anne | 2
-20 | Daniel | 1
-20 | David | 5
-24 | Anne | 8
-24 | Carl | 3
-24 | Carl | 6
-24 | Simon | 4
-30 | Audrey | 7
+| age | name   | id  |
+| --- | ------ | --- |
+| 20  | Anne   | 2   |
+| 20  | Daniel | 1   |
+| 20  | David  | 5   |
+| 24  | Anne   | 8   |
+| 24  | Carl   | 3   |
+| 24  | Carl   | 6   |
+| 24  | Simon  | 4   |
+| 30  | Audrey | 7   |
 
 The generated composite index contains all persons sorted by their age and then by their name.
 
@@ -223,34 +222,33 @@ class Product {
 
 #### Data:
 
-id | description | descriptionWords
---- | --- | --- 
-1 | comfortable blue t-shirt | [comfortable, blue, t-shirt]
-2 | comfortable, red pullover!!! | [comfortable, red, pullover]
-3 | plain red t-shirt | [plain, red, t-shirt]
-4 | red necktie (super red) | [red, necktie, super, red]
+| id  | description                  | descriptionWords             |
+| --- | ---------------------------- | ---------------------------- |
+| 1   | comfortable blue t-shirt     | [comfortable, blue, t-shirt] |
+| 2   | comfortable, red pullover!!! | [comfortable, red, pullover] |
+| 3   | plain red t-shirt            | [plain, red, t-shirt]        |
+| 4   | red necktie (super red)      | [red, necktie, super, red]   |
 
 Entries with duplicate words only appear once in the index.
 
 #### Generated index
 
-descriptionWords | id
---- | ---
-comfortable | [1, 2]
-blue | 1
-necktie | 4
-plain | 3
-pullover | 2
-red | [2, 3, 4]
-super | 4
-t-shirt | [1, 3]
+| descriptionWords | id        |
+| ---------------- | --------- |
+| comfortable      | [1, 2]    |
+| blue             | 1         |
+| necktie          | 4         |
+| plain            | 3         |
+| pullover         | 2         |
+| red              | [2, 3, 4] |
+| super            | 4         |
+| t-shirt          | [1, 3]    |
 
 This index can now be used for prefix (or equality) where clauses on the individual words of the description.
 
 :::tip
 Instead of storing the words directly, you can also use the result of a [phonectic algorithm](https://en.wikipedia.org/wiki/Phonetic_algorithm) like [Soundex](https://en.wikipedia.org/wiki/Soundex).
 :::
-
 
 ## Unique indexes
 
