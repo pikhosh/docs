@@ -24,7 +24,7 @@ You can use the default config or provide some of the following parameters.
 | `name`              | You can open multiple instances with distinct names. By default, `"isar"` is used.                                                                                                                                               |
 | `schemas`           | A list of all collection schemas you want to use. All instances need to use the same schemas.                                                                                                                                    |
 | `directory`         | The storage location for this instance. You can pass a relative or absolute path. By default, `NSDocumentDirectory` is used for iOS and `getDataDirectory` for Android. The final location is `path/name`. Not required for web. |
-| `relaxedDurability` | Relaxes the durability guarantee to increase write performance. In case of a system crash (not app crash), it is possible to loose the last commited transaction. Corruption is not possible                                     |
+| `relaxedDurability` | Relaxes the durability guarantee to increase write performance. In case of a system crash (not app crash), it is possible to lose the last committed transaction. Corruption is not possible                                     |
 
 You can either store the Isar instance in a global variable or use your favorite dependency injection package to manage it.
 
