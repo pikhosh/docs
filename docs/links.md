@@ -58,7 +58,7 @@ It would make more sense if the student from the previous example could have mul
 
 `IsarLinks` behaves much like `IsarLink` and is also lazy. To load all linked object call `linkProperty.load()`. To persist the changes call `linkProperty.save()`.
 
-Internally both `IsarLink` and `IsarLinks` are represented in the same way. This allows us to upgrade the `IsarLink<Teacher>` from before to an `IsarLinks<Teacher>` to assign multiple teachers to a single student (without loosing data).
+Internally both `IsarLink` and `IsarLinks` are represented in the same way. This allows us to upgrade the `IsarLink<Teacher>` from before to an `IsarLinks<Teacher>` to assign multiple teachers to a single student (without losing data).
 
 ```dart
 @Collection()
