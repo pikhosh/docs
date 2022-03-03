@@ -45,7 +45,7 @@ class Pet {
 
 Isar automatically indexes id fields, which allows you to efficiently read and modify objects based on their id.
 
-You can either set ids yourself or request Isar to assign an auto-increment id. If the `id` field is `null`, Isar will use an auto-increment id. You can also assign `Isa.autoIncrement` to the id field to request an auto-increment id.
+You can either set ids yourself or request Isar to assign an auto-increment id. If the `id` field is `null`, Isar will use an auto-increment id. You can also assign `Isar.autoIncrement` to the id field to request an auto-increment id.
 
 ### Supported types
 
