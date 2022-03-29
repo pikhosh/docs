@@ -45,7 +45,7 @@ final expensiveProducts = await isar.products..filter()
   .findAll();
 ```
 
-To improve the performance of this query we index the `price` propery. An index is like a sorted lookup table:
+To improve the performance of this query we index the `price` property. An index is like a sorted lookup table:
 
 ```dart
 @Collection()
