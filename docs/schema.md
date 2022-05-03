@@ -87,13 +87,19 @@ Web does not support `NaN`. This is an IndexedDB limitation.
 
 Since JavaScript only supports 64-bit floating point numbers `@Size32()` has no effect on web.
 
+### DataTime
+
+Isar does not store timezone information of your dates. Instead it converts `DateTime`s to UTC before storing them. Isar returns all dates in local time.
+
+`DateTime`s are stored with microsecond precision. In browsers, only millisecond precision is supported because of JavaScript limitations.
+
 ### Ignoring fields
 
 By default, all public fields of a class will be persisted. By annotating a field with `@Ignore()`, you can exclude it from persistence. Keep in mind that it is not good practice to store information in your Isar objects that is not persisted.
 
 ### Renaming classes and fields
 
-You have to be careful when you want to rename a class or field. Most of the time the old class or field will just be droped and recreated. With the `@Name()` annotation, you can name classes and fields in the database independantly from Dart. The following code will yield the exact same schema as the code above.
+You have to be careful when you want to rename a class or field. Most of the time the old class or field will just be dropped and recreated. With the `@Name()` annotation, you can name classes and fields in the database independantly from Dart. The following code will yield the exact same schema as the code above.
 
 ```dart
 @Collection()

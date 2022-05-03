@@ -81,3 +81,11 @@ await isar.writeTxn((isar) async {
 
 final allContacts = await isar.contacts.where().findAll();
 ```
+
+## Other resources
+
+You're a visual learner? Check out this great series to get started with Isar:
+
+<div class="video-block">
+  <iframe max-width=100% height=auto src="https://www.youtube.com/embed/videoseries?list=PLKKf8l1ne4_hMBtRykh9GCC4MMyteUTyf" title="Isar Database" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>

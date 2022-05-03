@@ -1,3 +1,7 @@
+const { viteBundler } = require("@vuepress/bundler-vite");
+const { defaultTheme } = require("@vuepress/theme-default");
+const { shikiPlugin } = require("@vuepress/plugin-shiki");
+
 module.exports = {
   head: [
     [
@@ -64,7 +68,8 @@ module.exports = {
       description: "Super Fast Cross Platform Database for Flutter",
     },
   },
-  themeConfig: {
+  bundler: viteBundler({}),
+  theme: defaultTheme({
     logo: "/isar.svg",
     repo: "isar/isar",
     docsRepo: "isar/docs",
@@ -119,7 +124,7 @@ module.exports = {
         link: "https://github.com/isar/samples",
       },
     ],
-  },
+  }),
   markdown: {
     code: {
       lineNumbers: false,
@@ -127,10 +132,9 @@ module.exports = {
   },
   plugins: [
     [
-      "@vuepress/shiki",
-      {
+      shikiPlugin({
         theme: "one-dark-pro",
-      },
+      }),
     ],
   ],
 };
