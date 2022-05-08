@@ -84,7 +84,8 @@ final linda = isar.students.where()
 await linda.teachers.load();
 print(linda.teachers); // {Teacher('Math')}
 
-linda.teachers.insert(englishTeacher);
+linda.teachers.add(englishTeacher);
+
 await isar.writeTxn((isar) async {
   await linda.teachers.save();
 });
