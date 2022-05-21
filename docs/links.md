@@ -99,7 +99,7 @@ I hear you ask "What if we want to express reverse relationships?". Don't worry,
 
 Backlinks are links in reverse direction. Each link always has an implicit backlink. You can make it available to your app by annotating an `IsarLink` or `IsarLinks` with `@Backlink()`.
 
-Backlinks do not require additional memory or resources and you can freely add, remove and rename them without loosing data.
+Backlinks do not require additional memory or resources and you can freely add, remove and rename them without losing data.
 
 We want to know which students a specific teacher has so we define a backlink:
 
