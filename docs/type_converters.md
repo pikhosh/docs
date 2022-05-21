@@ -4,7 +4,7 @@ title: Type Converters
 
 # Type Converters
 
-Isar only supports storing basic types like numbers and lists but you can use type converters to use other types like Enums with Isar.
+Isar only supports storing basic `database types` like numbers and lists but you can use type converters to use other `Dart types` like Enums with Isar.
 
 ## Creating a `TypeConverter`
 
@@ -64,4 +64,4 @@ final marriedPersons = await isar.persons
   .findAll();
 ```
 
-There is only one very important thing to keep in mind: You may change the converter for an existing field but the database type **MUST BE THE SAME**. Otherwise the schema migration will fail.
+There is only one very important thing to keep in mind: You may change the converter for an existing field but the `database type` **MUST BE THE SAME**. Otherwise the schema migration will fail.
