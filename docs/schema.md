@@ -87,7 +87,7 @@ Web does not support `NaN`. This is an IndexedDB limitation.
 
 Since JavaScript only supports 64-bit floating point numbers `@Size32()` has no effect on web.
 
-### DataTime
+### DateTime
 
 Isar does not store timezone information of your dates. Instead it converts `DateTime`s to UTC before storing them. Isar returns all dates in local time.
 
