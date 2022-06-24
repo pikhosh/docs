@@ -76,7 +76,7 @@ final contact = Contact()
   ..name = "My first contact";
 
 await isar.writeTxn((isar) async {
-  contact.id = isar.contacts.put(contact);
+  contact.id = await isar.contacts.put(contact);
 });
 
 final allContacts = await isar.contacts.where().findAll();
