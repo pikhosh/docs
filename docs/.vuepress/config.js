@@ -53,12 +53,11 @@ module.exports = {
     [
       "script",
       {},
-      `window.smartlook||(function(d) {
-                var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
-                var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
-                c.charset='utf-8';c.src='https://rec.smartlook.com/recorder.js';h.appendChild(c);
-                })(document);
-                smartlook('init', '78bcf5a392dd7cb8764847f3290ff6c4e8a66555');`,
+      `(function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "ciawnmxjdh");`,
     ],
   ],
   locales: {
