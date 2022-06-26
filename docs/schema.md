@@ -79,7 +79,7 @@ This behavior allows for nice performance improvements and it allows you to chan
 Web does not support `NaN`. This is an IndexedDB limitation.
 :::
 
-➡️ Use `TypeConverter`s to store unsupported types like enums: [Type Converters](type-converters)
+➡️ Use `TypeConverter`s to store unsupported types like enums: [Type Converters](type_converters)
 
 ### 8-byte and 4-byte numbers
 
