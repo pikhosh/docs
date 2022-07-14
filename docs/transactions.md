@@ -22,7 +22,7 @@ Transactions can either be synchronous or asynchronous. In synchronous transacti
 
 ### Read transactions
 
-Explicit read transactions are optional but they allow you to do atomic reads and rely on a constistent state of the database. Internally Isar always uses implicit read transactions for all read operations.
+Explicit read transactions are optional but they allow you to do atomic reads and rely on a consistent state of the database. Internally Isar always uses implicit read transactions for all read operations.
 
 :::tip
 Async read transactions run in parallel to other read and write transactions. Pretty cool, right?
