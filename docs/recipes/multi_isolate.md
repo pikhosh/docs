@@ -14,7 +14,7 @@ Isar transactions are executed in parallel even if they run in the same isolate.
 
 The reason is that Isar spends quite some time on encoding and decoding data from and to Dart objects. You can think of it like encoding and decoding JSON (just more efficient). These operations run inside the isolate from which the data is accessed and naturally block other code in the isolate. In other words: Isar performs some of the work in your Dart isolate.
 
-If you only need to read or write a few hundret objects at once, it is fine to do it in the UI isolate. But if you have huge transactions or the UI thread is already busy, you should consider using a separate isolate.
+If you only need to read or write a few hundred objects at once, it is fine to do it in the UI isolate. But if you have huge transactions or the UI thread is already busy, you should consider using a separate isolate.
 
 ## Example
 
