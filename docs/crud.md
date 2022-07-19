@@ -89,7 +89,7 @@ await isar.writeTxn(() async {
   contact.isStarred = false;
   await contacts.put(contact); // perform update operations
 
-  await contact.delete(contact.id); // or delete operations
+  await contacts.delete(contact.id); // or delete operations
 });
 ```
 
