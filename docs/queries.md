@@ -301,7 +301,7 @@ Sorting a lot of results can be an expensive operation. Luckily, we can again us
 
 If you use a **single** index in your query, the results are already sorted by the index. That's a big deal!
 
-Let's assume we have shoes in sizes `[43, 39, 48, 40, 42, 45]` and we want to find all shoes with a size greater than or equal to `42` and also have them sorted by size:
+Let's assume we have shoes in sizes `[43, 39, 48, 40, 42, 45]` and we want to find all shoes with a size greater than `42` and also have them sorted by size:
 
 ```dart
 final bigShoes = isar.shoes.where()
