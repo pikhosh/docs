@@ -120,7 +120,7 @@ module.exports = {
       },
       {
         text: "Sample Apps",
-        link: "https://github.com/isar/samples",
+        link: "https://github.com/isar/isar/tree/main/examples",
       },
     ],
   }),
