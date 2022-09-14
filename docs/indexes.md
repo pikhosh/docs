@@ -4,7 +4,7 @@ title: Indexes
 
 # Indexes
 
-Indexes are Isars most powerful feature. Many embedded databases offer "normal" indexes (if at all). Understanding how indexes work is essential to optimize query performance. Isar lets you choose which index you want to use and how you want to use it. We'll start with a quick introduction what indexes are.
+Indexes are Isar's most powerful feature. Many embedded databases offer "normal" indexes (if at all). Understanding how indexes work is essential to optimize query performance. Isar lets you choose which index you want to use and how you want to use it. We'll start with a quick introduction to what indexes are.
 
 ## What are indexes?
 
